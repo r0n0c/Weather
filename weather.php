@@ -1,11 +1,12 @@
 <?php
 include_once('sqlconnect.php');
+include_once('feeds.php');
 // connecting to weather db on xeon
 mysql_connect($host,$myuser,$mypass);
 @mysql_select_db(weather) or die("Unable to select database");
 // Get XML data from source
-$feedc = file_get_contents("http://api.wunderground.com/weatherstation/WXCurrentObXML.asp?ID=KWISUNPR7");
-$feedn = file_get_contents("http://api.wunderground.com/weatherstation/WXCurrentObXML.asp?ID=KWISUNPR3");
+$feed1 = file_get_contents("http://api.wunderground.com/weatherstation/WXCurrentObXML.asp?ID=KWISUNPR7");
+$feed2 = file_get_contents("http://api.wunderground.com/weatherstation/WXCurrentObXML.asp?ID=KWISUNPR3");
 // Check to ensure the feed exists
 if(!$feedc){
 die('Weather not found! Check feed URL');
@@ -47,12 +48,12 @@ $stationc = $xmlc->station_id;
 $stationn = $xmln->station_id;
 
 //writing to db vairiables
-$queryc = "INSERT INTO weather (wr_station, wr_temp, wr_1hr, wr_today, wr_dew, ,wr_pressure, wr_winder, wr_windir, wr_windmph, wr_windgust, wr_hum) VALUES ('$stationc', '$tempfc', '$rainhourc', '$raintodayc', '$dewc', '$pressc', '$windec', '$windirc', '$windmphc', '$windgustc', '$relhumc')";
-$queryn = "INSERT INTO weather (wr_station, wr_temp, wr_1hr, wr_today, wr_dew, ,wr_pressure, wr_winder, wr_windir, wr_windmph, wr_windgust, wr_hum) VALUES ('$stationn', '$tempfn', '$rainhourn', '$raintodayn', '$dewn', '$pressn', '$winden', '$windirn', '$windmphn', '$windgustn', '$relhumn')";
+$query1 = "INSERT INTO weather (wr_station, wr_temp, wr_1hr, wr_today, wr_dew, ,wr_pressure, wr_winder, wr_windir, wr_windmph, wr_windgust, wr_hum) VALUES ('$stationc', '$tempfc', '$rainhourc', '$raintodayc', '$dewc', '$pressc', '$windec', '$windirc', '$windmphc', '$windgustc', '$relhumc')";
+$query2 = "INSERT INTO weather (wr_station, wr_temp, wr_1hr, wr_today, wr_dew, ,wr_pressure, wr_winder, wr_windir, wr_windmph, wr_windgust, wr_hum) VALUES ('$stationn', '$tempfn', '$rainhourn', '$raintodayn', '$dewn', '$pressn', '$winden', '$windirn', '$windmphn', '$windgustn', '$relhumn')";
 
 // Making the push
-mysql_query($queryc) or die("can't push queryc");
-mysql_query($queryn) or die("can't push queryn");
+mysql_query($query1) or die("can't push query1");
+mysql_query($query2) or die("can't push query2");
 
 //Verifying Info
 echo "The following has been submitted to the database! <BR><BR>";
