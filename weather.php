@@ -1,7 +1,5 @@
 <?php
-$myuser = 'userN';
-$mypass = 'passD';
-$host = 'localhost'
+include_once('sqlconnect.php');
 // connecting to weather db on xeon
 mysql_connect($host,$myuser,$mypass);
 @mysql_select_db(weather) or die("Unable to select database");
