@@ -1,0 +1,1 @@
+I made this php page to pull weather info from a couple weather station rss feeds off of wunderground.com. It will then write info to a MySQL DB.
