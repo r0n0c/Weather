@@ -8,7 +8,7 @@ mysql_connect($host,$myuser,$mypass);
 $feed1 = file_get_contents("http://api.wunderground.com/weatherstation/WXCurrentObXML.asp?ID=KWISUNPR7");
 $feed2 = file_get_contents("http://api.wunderground.com/weatherstation/WXCurrentObXML.asp?ID=KWISUNPR3");
 // Check to ensure the feed exists
-if(!$feedc){
+if(!$feed1){
 die('Weather not found! Check feed URL');
 }
 // moving to simple XML element
