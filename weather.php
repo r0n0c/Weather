@@ -12,8 +12,8 @@ if(!$feedc){
 die('Weather not found! Check feed URL');
 }
 // moving to simple XML element
-$xmlc = new SimpleXmlElement($feedc);
-$xmln = new SimpleXmlElement($feedn);
+$xmlc = new SimpleXmlElement($feed1);
+$xmln = new SimpleXmlElement($feed2);
 
 //filling in vairiables
 $locationc = $xmlc->location->neighborhood;
