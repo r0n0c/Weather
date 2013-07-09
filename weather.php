@@ -1,0 +1,68 @@
+<?php
+$myuser = 'userN';
+$mypass = 'passD';
+$host = 'localhost'
+// connecting to weather db on xeon
+mysql_connect($host,$myuser,$mypass);
+@mysql_select_db(weather) or die("Unable to select database");
+// Get XML data from source
+$feedc = file_get_contents("http://api.wunderground.com/weatherstation/WXCurrentObXML.asp?ID=KWISUNPR7");
+$feedn = file_get_contents("http://api.wunderground.com/weatherstation/WXCurrentObXML.asp?ID=KWISUNPR3");
+// Check to ensure the feed exists
+if(!$feedc){
+die('Weather not found! Check feed URL');
+}
+// moving to simple XML element
+$xmlc = new SimpleXmlElement($feedc);
+$xmln = new SimpleXmlElement($feedn);
+
+//filling in vairiables
+$locationc = $xmlc->location->neighborhood;
+$locationn = $xmln->location->neighborhood;
+$raintodayc = $xmlc->precip_today_in;
+$raintodayn = $xmln->precip_today_in;
+$dewc = $xmlc->dewpoint_f;
+$dewn = $xmln->dewpoint_f;
+$tempfc = $xmlc->temp_f;
+$tempfn = $xmln->temp_f;
+$rainhourc = $xmlc->precip_1hr_in;
+$rainhourn = $xmln->precip_1hr_in;
+$timexc = $xmlc->observation_time;
+//removes 'Last Updated on ' from preceeding the time variable
+$timec = substr($timexc, 16);
+$timexn = $xmln->observation_time;
+//removes 'Last Updated on ' from preceeding the time variable
+$timen = substr($timexn, 16);
+$pressc = $xmlc->pressure_mb;
+$pressn = $xmln->pressure_mb;
+$windec = $xmlc->wind_degrees;
+$winden = $xmln->wind_degrees;
+$windirc = $xmlc->wind_dir;
+$windirn = $xmln->wind_dir;
+$windmphc = $xmlc->wind_mph;
+$windmphn = $xmln->wind_mph;
+$windgustc = $xmlc->wind_gust_mph;
+$windgustn = $xmln->wind_gust_mph;
+$relhumc = $xmlc->relative_humidity;
+$relhumn = $xmln->relative_humidity;
+$stationc = $xmlc->station_id;
+$stationn = $xmln->station_id;
+
+//writing to db vairiables
+$queryc = "INSERT INTO weather (wr_station, wr_temp, wr_1hr, wr_today, wr_dew, ,wr_pressure, wr_winder, wr_windir, wr_windmph, wr_windgust, wr_hum) VALUES ('$stationc', '$tempfc', '$rainhourc', '$raintodayc', '$dewc', '$pressc', '$windec', '$windirc', '$windmphc', '$windgustc', '$relhumc')";
+$queryn = "INSERT INTO weather (wr_station, wr_temp, wr_1hr, wr_today, wr_dew, ,wr_pressure, wr_winder, wr_windir, wr_windmph, wr_windgust, wr_hum) VALUES ('$stationn', '$tempfn', '$rainhourn', '$raintodayn', '$dewn', '$pressn', '$winden', '$windirn', '$windmphn', '$windgustn', '$relhumn')";
+
+// Making the push
+mysql_query($queryc) or die("can't push queryc");
+mysql_query($queryn) or die("can't push queryn");
+
+//Verifying Info
+echo "The following has been submitted to the database! <BR><BR>";
+echo "$locationc <BR>Current Temp: $tempfc F<BR> Total rain today $raintodayc<BR> Rain in the last hour: $rainhourc<BR> Dewpoint: $dewc<BR> Collected at: $timec";
+echo "<BR><BR>";
+echo "$locationn <BR>Current Temp: $tempfn F<BR> Total rain today $raintodayn<BR> Rain in the last hour: $rainhourn<BR> Dewpoint: $dewn<BR> Collected at: $timen";
+
+//closeing db connection
+mysql_close();
+
+?>
