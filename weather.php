@@ -1,7 +1,7 @@
 <?php
 include_once('sqlconnect.php');
 include_once('feeds.php');
-// connecting to weather db on xeon
+// connecting to weather db
 mysql_connect($host,$myuser,$mypass);
 @mysql_select_db(weather) or die("Unable to select database");
 // Get XML data from source
