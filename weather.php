@@ -57,9 +57,9 @@ mysql_query($query2) or die("can't push query2");
 
 //Verifying Info
 echo "The following has been submitted to the database! <BR><BR>";
-echo "$locationc <BR>Current Temp: $tempfc F<BR> Total rain today $raintodayc<BR> Rain in the last hour: $rainhourc<BR> Dewpoint: $dewc<BR> Collected at: $timec";
+echo "<p>$locationc</p> <p>Current Temp: $tempfc F</p> <p>Total rain today $raintodayc</p> <p>Rain in the last hour: $rainhourc</p> <p>Dewpoint: $dewc</p> <p>Collected at: $timec</p>";
 echo "<BR><BR>";
-echo "$locationn <BR>Current Temp: $tempfn F<BR> Total rain today $raintodayn<BR> Rain in the last hour: $rainhourn<BR> Dewpoint: $dewn<BR> Collected at: $timen";
+echo "<p>$locationn</p> <p>Current Temp: $tempfn F</p> <p>Total rain today $raintodayn</p> <p>Rain in the last hour: $rainhourn</p> <p>Dewpoint: $dewn</p> <p>Collected at: $timen</p>";
 
 //closeing db connection
 mysql_close();
